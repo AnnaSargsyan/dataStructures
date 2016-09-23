@@ -2,52 +2,87 @@
  Anna Avanesyan
  Anna Sargsyan */
 
-
 #include <iostream>
 #include <algorithm>
 
 using namespace std;
+void bubbleSort(int size, int *array);
+void selectionSort( int size, int array[]);
 
 
 
+class Sorting{
+    public:
+        void selectionSort( int size, int array[]);
+        void bubbleSort(int size, int *array);
+};
 
-void findingMinimum( int number, int array[]){
-   
+void selectionSort( int size, int array[]){
     
-    for(int n=0; n < number ; n++){
+    
+    for(int n=0; n < size ; n++){
         int minimum = n;
-        for(int i = n; i < number ; i++){
+        for(int i = n; i < size ; i++){
             if(array[i] < array[minimum]){
                 minimum = i;
             }
         }
         
         swap(array[minimum], array[n]);
-
+        
     }
+}
+
+void bubbleSort(int size, int *array){
     
+    bool sorted = false;
+    int step = 1;
+    
+    while (!sorted && step < size){
+        sorted = true;
+        for (int i = 0; i < size - step; i++){
+            if (array[i] > array[i + 1]){
+                array[i] = array[i] + array[i+1];
+                array[i+1] = array[i] - array[i+1];
+                array[i] = array[i] - array[i+1];
+                sorted = false;
+            }
+        }
+        step++;
+    }
 }
 
 
 int main(){
-    
-    int number;
-    int array[number];
+    int size;
+    int key;
+    int *array = new int[size];
+    Sorting obj;
     
     cout<< "Enter the number of elements" << endl;
-    cin>> number;
+    cin>> size;
     cout << "Enter the list of elements" << endl;
-    
-    for(int i=0; i< number;i++){
+    for(int i=0; i< size;i++){
         cin >> array[i];
     }
     
-    findingMinimum(number, array);
+    cout << "Which method whould you like to use?" << endl
+    << " Press 1 to use selection sort " << endl
+    << " Press 2 to use bubble sort " << endl
+    << " Press 3 to use insertion sort " << endl
+    << " Press 4 to use merge sort " << endl
+    << " Press 5 to use quick sort " << endl;
     
-    for(int i=0; i< number; i++){
-        cout << array[i] << " " ;
+    cin >> key;
+    switch(key){
+    
+        case 1: obj.selectionSort(size, array);
+        case 2: obj.bubbleSort(size, array);
     }
     
+    for(int i=0; i< size; i++){
+        cout << array[i] << " " ;
+    }
+            
     return 0;
 }
-    
