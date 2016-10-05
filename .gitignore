@@ -1,88 +1,48 @@
-/* Data Structures HW
- Anna Avanesyan
- Anna Sargsyan */
-
+// Example program
 #include <iostream>
-#include <algorithm>
-
+#include <string>
 using namespace std;
-void bubbleSort(int size, int *array);
-void selectionSort( int size, int array[]);
-
-
-
-class Sorting{
-    public:
-        void selectionSort( int size, int array[]);
-        void bubbleSort(int size, int *array);
-};
-
-void selectionSort( int size, int array[]){
-    
-    
-    for(int n=0; n < size ; n++){
-        int minimum = n;
-        for(int i = n; i < size ; i++){
-            if(array[i] < array[minimum]){
-                minimum = i;
+void merge ( int array[],int size,int middle, int low, int high){
+    int temp[size];
+    for (int i =low;i <= high ; ++i){
+        temp [i]=array[i];
+        i=low;
+        int j=middle +1;
+        int k=low;
+        while (i <= middle && j<= high){
+            if (temp[i]<= temp[j]){
+                array[k]=temp[i];
+                ++i;
             }
+            else {
+                array[k]=temp [j];
+                ++j;
+            }
+            ++k;
         }
-        
-        swap(array[minimum], array[n]);
-        
+        while  (i <= middle){
+            array[k]=temp[i];
+            ++k;
+            ++i; }
     }
 }
-
-void bubbleSort(int size, int *array){
     
-    bool sorted = false;
-    int step = 1;
     
-    while (!sorted && step < size){
-        sorted = true;
-        for (int i = 0; i < size - step; i++){
-            if (array[i] > array[i + 1]){
-                array[i] = array[i] + array[i+1];
-                array[i+1] = array[i] - array[i+1];
-                array[i] = array[i] - array[i+1];
-                sorted = false;
-            }
-        }
-        step++;
+void mergeSort(int array[],int size, int low, int high ){
+    if (low < high) {
+        int middle = (low+high) /2;
+        mergeSort (array,size,low,middle);
+        mergeSort (array,size,middle+1,high);
+        merge (array,size,low,middle,high);
     }
 }
-
-
+    
 int main(){
-    int size;
-    int key;
-    int *array = new int[size];
-    Sorting obj;
-    
-    cout<< "Enter the number of elements" << endl;
-    cin>> size;
-    cout << "Enter the list of elements" << endl;
-    for(int i=0; i< size;i++){
-        cin >> array[i];
+    const int size=10;
+    int numbers[] = {5,20,60,8,35,6,9,1,95,3};
+    mergeSort (numbers,size,0,9);
+    for(int i=0;i<size;++i){
+        cout << numbers [i] << " "<< endl;
     }
-    
-    cout << "Which method whould you like to use?" << endl
-    << " Press 1 to use selection sort " << endl
-    << " Press 2 to use bubble sort " << endl
-    << " Press 3 to use insertion sort " << endl
-    << " Press 4 to use merge sort " << endl
-    << " Press 5 to use quick sort " << endl;
-    
-    cin >> key;
-    switch(key){
-    
-        case 1: obj.selectionSort(size, array);
-        case 2: obj.bubbleSort(size, array);
-    }
-    
-    for(int i=0; i< size; i++){
-        cout << array[i] << " " ;
-    }
-            
     return 0;
 }
