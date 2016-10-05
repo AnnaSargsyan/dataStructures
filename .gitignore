@@ -3,51 +3,51 @@
  Anna Sargsyan */
 
 
+// Example program
 #include <iostream>
-#include <algorithm>
-
+#include <string>
 using namespace std;
-
-
-
-
-void findingMinimum( int number, int array[]){
-   
-    
-    for(int n=0; n < number ; n++){
-        int minimum = n;
-        for(int i = n; i < number ; i++){
-            if(array[i] < array[minimum]){
-                minimum = i;
+void merge ( int array[],int size,int middle, int low, int high){
+    int temp[size];
+    for (int i =low;i <= high ; ++i){
+        temp [i]=array[i];
+        i=low;
+        int j=middle +1;
+        int k=low;
+        while (i <= middle && j<= high){
+            if (temp[i]<= temp[j]){
+                array[k]=temp[i];
+                ++i;
             }
+            else {
+                array[k]=temp [j];
+                ++j;
+            }
+            ++k;
         }
-        
-        swap(array[minimum], array[n]);
-
+        while  (i <= middle){
+            array[k]=temp[i];
+            ++k;
+            ++i; }
     }
-    
 }
-
-
+    
+    
+void mergeSort(int array[],int size, int low, int high ){
+    if (low < high) {
+        int middle = (low+high) /2;
+        mergeSort (array,size,low,middle);
+        mergeSort (array,size,middle+1,high);
+        merge (array,size,low,middle,high);
+    }
+}
+    
 int main(){
-    
-    int number;
-    int array[number];
-    
-    cout<< "Enter the number of elements" << endl;
-    cin>> number;
-    cout << "Enter the list of elements" << endl;
-    
-    for(int i=0; i< number;i++){
-        cin >> array[i];
+    const int size=10;
+    int numbers[] = {5,20,60,8,35,6,9,1,95,3};
+    mergeSort (numbers,size,0,9);
+    for(int i=0;i<size;++i){
+        cout << numbers [i] << " "<< endl;
     }
-    
-    findingMinimum(number, array);
-    
-    for(int i=0; i< number; i++){
-        cout << array[i] << " " ;
-    }
-    
     return 0;
 }
-    
